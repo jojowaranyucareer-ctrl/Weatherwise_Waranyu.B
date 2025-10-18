@@ -15,7 +15,3 @@ Below is one focused example that combines your prompt, the intentional promptin
 ```python
 # Idea only. No structure for widgets, no separation of UI vs logic.
 
-
-Documentation quality (clear function purpose)
-
-UX clarity
