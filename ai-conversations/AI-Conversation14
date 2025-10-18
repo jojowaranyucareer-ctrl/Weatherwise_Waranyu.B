@@ -1,0 +1,49 @@
+Tool: ChatGPT
+Date: 2025-10-16
+Topic: Verifying create_temperature_visualisation() and create_precipitation_visualisation() with live data
+
+Me: Hi ChatGPT, now that my weather data functions are working, I want to test the two visualisation functions: one for temperature and one for precipitation. What’s the best way to do that?
+
+AI: Since your visualisation functions depend on real weather data, the best approach is to use the same dataset you fetched earlier for Tokyo. Just check that weather_processed_data exists and contains the list key before plotting. You can then call each visualisation function twice — once for 5 days and once for 3 days — to make sure it slices the data correctly.
+
+Me: That’s exactly what I did. Here’s the testing code I wrote:
+
+print("\nTesting create_temperature_visualisation...")
+if 'weather_processed_data' in locals() and weather_processed_data and weather_processed_data.get("list"):
+    print("Creating temperature chart for 5 days...")
+    create_temperature_visualisation(weather_processed_data, num_days=5, output_type='display')
+
+    print("\nCreating temperature chart for 3 days...")
+    create_temperature_visualisation(weather_processed_data, num_days=3, output_type='display')
+else:
+    print("Skipping temperature visualisation test as weather data is not available or not fetched.")
+
+
+AI: Perfect. That’s a clean way to test it. You’re checking that data exists before running the visualisation, which prevents unnecessary errors. Did the charts display correctly?
+
+Me: Yes. The 5-day chart showed a smooth line with temperature changes over time, and the 3-day version worked too. The x-axis labels used the date strings like “Fri 18”, “Sat 19” — exactly as expected.
+
+AI: That’s great. That confirms your slicing logic and date formatting work correctly.
+
+Me: I also tested the precipitation version using a similar structure:
+
+print("\nTesting create_precipitation_visualisation...")
+if 'weather_processed_data' in locals() and weather_processed_data and weather_processed_data.get("list"):
+    print("Creating precipitation chart for 5 days...")
+    create_precipitation_visualisation(weather_processed_data, num_days=5, output_type='display')
+
+    print("\nCreating precipitation chart for 3 days...")
+    create_precipitation_visualisation(weather_processed_data, num_days=3, output_type='display')
+else:
+    print("Skipping precipitation visualisation test as weather data is not available or not fetched.")
+
+
+AI: Excellent. Testing both versions shows that your visualisation functions handle different day counts consistently. Did you notice the difference between the two chart styles?
+
+Me: Yes, the temperature chart uses a line plot, and the precipitation one uses a blue bar chart. I like how they complement each other visually — it makes the story easier to understand when both are presented in my dashboard.
+
+AI: That’s a good design observation. You can even display them side by side in the final version if you want a more compact layout. But functionally, it sounds like everything is working perfectly.
+
+Me: Yes, both charts render correctly without any errors or empty plots. I’m happy with how clean the output looks.
+
+AI: Great work. These tests confirm that your visualisation layer integrates smoothly with your data retrieval logic. You now have verified both analytical and visual components of your project.
