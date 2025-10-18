@@ -2,7 +2,7 @@ Tool: ChatGPT
 Date: 2025-10-13
 Topic: Creating a temperature visualisation function using matplotlib
 
-Me: Hi ChatGPT, I’ve already written the functions to get and process weather data. Now I need to visualise the results in a line chart using matplotlib. I want to make a function called create_temperature_visualisation(). Can you help me plan how it should work?
+Me: Now I need to visualise the results in a line chart using matplotlib. I want to make a function called create_temperature_visualisation(). Can you help me plan how it should work?
 
 AI: Sure. The goal of your function is to take the processed weather data and plot average daily temperatures. Here’s how you can structure it conceptually:
 
