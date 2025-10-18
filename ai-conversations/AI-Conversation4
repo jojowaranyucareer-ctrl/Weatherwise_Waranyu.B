@@ -1,0 +1,116 @@
+Tool: ChatGPT
+Date: 2025-10-17
+Topic: Creating a temperature visualisation function using matplotlib
+
+Me: Hi ChatGPT, I’ve already written the functions to get and process weather data. Now I need to visualise the results in a line chart using matplotlib. I want to make a function called create_temperature_visualisation(). Can you help me plan how it should work?
+
+AI: Sure. The goal of your function is to take the processed weather data and plot average daily temperatures. Here’s how you can structure it conceptually:
+
+Get the daily temperature data from your existing function (get_temps).
+
+Take only the number of days you want to display (like 5 days).
+
+Calculate the average temperature for each day.
+
+Use matplotlib to plot those values in a line chart.
+
+You can design it to either display the chart directly or return the figure object if you want to use it later in a notebook or GUI.
+
+Me: That makes sense. Please show me an outline for this function before we actually write the full version.
+
+AI: Here’s a short pseudocode outline:
+
+FUNCTION create_temperature_visualisation(weather_data, num_days=5, output_type='display'):
+    Get daily data from weather_data
+    IF no data:
+        print warning and return None
+    Get daily temperature dictionary using get_temps()
+    Slice to include only num_days
+    Compute average temperature per day
+    Create matplotlib figure and plot line chart
+    IF output_type == 'figure':
+        return the figure
+    ELSE:
+        show the plot
+
+
+This ensures the function works in both notebook display mode and when returning the figure for testing.
+
+Me: That helps. But how do I calculate the average temperature per day since I have multiple records in each date?
+
+AI: Since get_temps() returns a list of temperatures for each date, you can take the sum of that list and divide it by its length to get the average. For example:
+
+sliced_temps = [
+    sum(daily_temps[date]) / len(daily_temps[date])
+    for date in sliced_dates
+]
+
+
+Just make sure to handle cases where a list might be empty to avoid division errors.
+
+Me: Okay, I’ll include that check. What’s the best way to make the chart easy to read? Sometimes the date labels get messy.
+
+AI: You can rotate the x-axis labels slightly and use tight_layout() to prevent overlapping. Also, adding markers to the line makes the points easier to see. For example:
+
+ax.plot(sliced_dates, sliced_temps, marker='o', label='Average Temp (°C)')
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+
+You can also add a title, axis labels, and a legend for clarity.
+
+Me: Got it. Here’s my first full version. Can you check if it’s logical?
+
+def create_temperature_visualisation(weather_data: Dict[str, Any], num_days: int = 5, output_type: str = 'display'):
+    daily = weather_data.get("list", [])
+    if not daily:
+        print("No daily forecast data available to plot temperatures.")
+        return None
+
+    daily_temps = get_temps(weather_data)
+    sliced_dates = list(daily_temps.keys())[:num_days]
+    sliced_temps = [sum(daily_temps[date]) / len(daily_temps[date]) if daily_temps[date] else 0 for date in sliced_dates]
+
+    fig, ax = plt.subplots()
+    ax.plot(sliced_dates, sliced_temps, marker='o', label='Average Temp (°C)')
+    ax.set_title(f"Daily Average Temperature Forecast for {num_days} Days")
+    ax.set_xlabel("Day")
+    ax.set_ylabel("Temperature (°C)")
+    ax.legend()
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    if output_type == 'figure':
+        return fig
+    else:
+        plt.show()
+        return None
+
+
+AI: Yes, that looks very well structured. A few small details you might improve:
+
+Consider checking if daily_temps is empty before slicing.
+
+You can move the title creation to include the actual city name later if you want to personalize the chart.
+
+Everything else, including the average calculation and the plotting logic, looks solid.
+
+Me: When I tried it, it printed “No daily forecast data available to plot temperatures.” even though I got results earlier. Why is that?
+
+AI: That message appears because the function checks weather_data.get("list", []), but in your processed data, the structure may differ. Try printing weather_data.keys() to confirm. If your weather data is already processed, you can skip that and just use get_temps(weather_data) directly. You can replace the first few lines with:
+
+daily_temps = get_temps(weather_data)
+if not daily_temps:
+    print("No temperature data found to visualize.")
+    return None
+
+
+This way, it doesn’t rely on the “list” key if your data format changes later.
+
+Me: That makes sense. I’ll adjust it that way so it works no matter how I preprocess the data.
+
+AI: That’s a smart adjustment. It keeps your code flexible, and it’s more robust if the data structure changes. Once this works, you can create another similar function for precipitation visualisation by reusing the same layout and logic.
+
+Me: Good idea. I’ll try that after I test this one.
+
+AI: Great. This version of your create_temperature_visualisation() function follows good programming practices: modular design, clear arguments, error handling, and readable output. It’s ready for integration into your main dashboard.
