@@ -1,5 +1,5 @@
 Tool: ChatGPT
-Date: 2025-10-19
+Date: 2025-10-15
 Topic: Designing the WeatherWise user interface and temperature advice system
 
 Me: I want to create a simple user interface using ipywidgets. I want users to type a location, click buttons like “Show Chart” or “Ask AI,” and see the result in the notebook. How should I start?
