@@ -137,3 +137,41 @@ if weather_raw_data:
         print(weather_raw_data["list"][0])
 ```
 ---
+## 5) Visualisation Readability and Date Order
+
+**Topic:** Temperature and precipitation charts for 3 days and 5 days  
+**Prompt:** “Test both charts for 5 days and 3 days. Ensure labels are readable and dates are sorted.”  
+**Technique:** Iterative improvement of initial solution  
+**Why it helped:** Improved chart clarity without changing data logic.
+
+### Before
+```python
+sliced_dates = list(daily_temps.keys())[:num_days]
+plt.xticks(rotation=0)
+```
+### AI Response (summary)
+- Sort the dates before slicing.  
+- Rotate x labels and use `tight_layout()` to prevent overlap.
+
+### After
+```python
+sorted_dates = sorted(daily_temps.keys())
+sliced_dates = sorted_dates[:num_days]
+plt.xticks(rotation=45)
+plt.tight_layout()
+```
+---
+## Conclusion — Benefits of Intentional Prompting
+
+Intentional prompting made my development process faster, clearer, and more reliable. By deliberately shaping each AI exchange (restate the goal → ask for structure → probe edge cases → iterate with tests), I gained these concrete benefits:
+
+- **Stability & Error Handling:** Prompts that targeted failure modes (missing API key, invalid city, absent `list`) led to robust guards, timeouts, and graceful fallbacks—preventing crashes in Colab and improving user-facing messages.
+- **Correctness:** Asking for explanations (e.g., the 3-hour cadence and `[8:16]` slice) locked in accurate tomorrow summaries and consistent metrics across functions.
+- **Readability & Modularity:** Requests for modular refactors produced small, single-purpose functions (retrieval, processing, visualisation, conversation), clearer names, and docstrings—easier to maintain and extend.
+- **User Experience (UX):** Iterative prompts about charts and UI handlers improved label legibility, date ordering, and responsiveness (caching last dataset), which made the dashboard feel polished.
+- **Testing Discipline:** Prompts that asked for test scaffolds and previews (keys, first list item) gave quick validation loops, revealing edge cases early and shrinking debugging time.
+- **Assessment Alignment:** Each improvement maps to rubric items—**modular design**, **error handling**, **testing breadth**, **visualisation quality**, and **documentation quality**—with before/after code to demonstrate progress.
+
+
+---
+
