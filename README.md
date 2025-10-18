@@ -45,6 +45,7 @@ os.environ['HANDS_ON_AI_SERVER'] = 'https://ollama.serveur.au'
 os.environ['HANDS_ON_AI_MODEL'] = 'llama3.2'
 os.environ['HANDS_ON_AI_API_KEY'] = 'YOUR_HANDS_ON_AI_API_KEY'
 os.environ['OPENWEATHER_API_KEY'] = 'YOUR_OPENWEATHER_API_KEY'
+```
 
 Get your keys from:
 🌐 https://openweathermap.org/
