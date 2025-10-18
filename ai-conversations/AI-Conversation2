@@ -1,0 +1,174 @@
+Tool: ChatGPT
+Date: 2025-10-12
+Topic: Writing a function to retrieve weather data from the OpenWeather API
+
+Me: Hi ChatGPT, I want to write a function that gets weather data for a specific city using the OpenWeather API. I’m not sure how to start. Could you help me structure it properly?
+
+AI: Absolutely. The best way to begin is by identifying the key inputs and outputs.
+
+Input: City name and units (metric or imperial).
+
+Output: A structured object or dictionary containing the weather data.
+You’ll also need your API key, which should be stored securely in an environment variable, for example:
+
+import os
+api_key = os.getenv("OPENWEATHER_API_KEY")
+
+
+Then, you can call the API’s endpoint, such as:
+
+https://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={API_KEY}&units={UNITS}
+
+
+Me: Okay, but before we write the actual code, could you please show me a simple pseudocode version so I can see the steps more clearly?
+
+AI: Sure — here’s a pseudocode outline for clarity:
+
+FUNCTION openWeather_getWeather(city, units="metric"):
+    Get API key from environment
+    IF API key not found:
+        RETURN None
+    Construct URL with city and units
+    TRY:
+        Send request to API
+        Parse JSON response
+        RETURN data
+    EXCEPT:
+        Print error message
+        RETURN None
+
+
+This approach keeps it modular and easy to expand later.
+
+Me: That makes sense. I want to make sure it can handle errors like invalid city names or connection problems. How can I include that?
+
+AI: That’s an important concern. You can check the response’s HTTP status code before parsing the JSON. For example:
+
+response = requests.get(url)
+if response.status_code != 200:
+    print(f"API error: {response.status_code}")
+    return {"error": f"API returned status {response.status_code}"}
+data = response.json()
+
+
+That way, your program won’t crash if the city name is wrong or the connection fails.
+
+Me: I tried adding that, but I keep getting a KeyError when I try to access data["list"] in another function. Why does that happen?
+
+AI: That’s likely because when the API call fails, the JSON response doesn’t contain the normal list key. Instead, it includes an error message like:
+
+{"cod": "404", "message": "city not found"}
+
+
+So your code should always check if cod == "200" before trying to use the data. Here’s an improved version:
+
+data = response.json()
+if data.get("cod") != "200":
+    print(f"Error from API: {data.get('message')}")
+    return {"error": data.get("message")}
+
+
+This ensures your later functions don’t break when the API fails.
+
+Me: Okay, I think I’ll just make my function return the raw JSON for now, since I’ll parse it later in another module. Would that be okay?
+
+AI: Yes, that’s a good modular approach. Keep the retrieval and parsing logic separate. Your openWeather_getWeather() function should only handle:
+
+API key validation
+
+Request creation
+
+Basic error handling
+Returning raw JSON gives you flexibility for later visualization and analysis.
+
+Me: I also saw some code online that uses a TypedDict for the data type. What’s that for?
+
+AI: Good question — TypedDict is part of Python’s typing module and helps you define the expected structure of a dictionary more clearly.
+For example:
+
+from typing import TypedDict, Optional, Any, Dict, List
+
+class ParsedWeather(TypedDict, total=False):
+    location: str
+    forecast_days: int
+    error: Optional[str]
+    current: Dict[str, Any]
+    daily: List[Dict[str, Any]]
+
+
+You can use this to make your code more type-safe and readable, especially when sharing your project with others or using tools like MyPy or Pyright.
+
+Me: So this ParsedWeather is like a “template” for what my weather data should look like?
+
+AI: Exactly. It doesn’t change how your program runs, but it improves maintainability and makes your code self-documenting — something instructors and teams appreciate.
+
+Me: Okay, please check if this first version is fine:
+
+def openWeather_getWeather(city: str, units: str = "metric"):
+    api_key = os.getenv("OPENWEATHER_API_KEY")
+    if not api_key:
+        return None
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units={units}"
+    response = requests.get(url)
+    return response.json()
+
+
+AI: That’s a solid start. It’s functional and easy to read. To make it more reliable, let’s add a few improvements:
+
+Wrap the request in a try/except block to handle unexpected errors.
+
+Add a print statement for debugging if something goes wrong.
+
+Handle missing API keys gracefully.
+
+Here’s the improved version:
+
+import requests
+import os
+
+def openWeather_getWeather(city: str, units: str = "metric"):
+    api_key = os.getenv("OPENWEATHER_API_KEY")
+    if not api_key:
+        print("Missing API key")
+        return None
+    try:
+        url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units={units}"
+        response = requests.get(url)
+        data = response.json()
+        return data
+    except Exception as e:
+        print(f"Error fetching weather data: {e}")
+        return None
+
+
+Me: That looks better. Should I worry about rate limits or performance at this stage?
+
+AI: Not right now. The OpenWeather free tier allows about 60 requests per minute, which is fine for testing. If you scale this later (for multiple users or cities), you can consider caching results or using async requests to improve efficiency. For your current project, this version is perfectly fine.
+
+Me: Okay, so my final version is:
+
+class ParsedWeather(TypedDict, total=False):
+    location: str
+    forecast_days: int
+    error: Optional[str]
+    current: Dict[str, Any]
+    daily: List[Dict[str, Any]]
+
+
+def openWeather_getWeather(city: str, units: str = "metric"):
+    api_key = os.getenv("OPENWEATHER_API_KEY")
+    if not api_key:
+            return None
+    try:
+            CITY = city
+            UNITS = units  # metric for °C or "imperial" for °F
+            url = f"https://api.openweathermap.org/data/2.5/forecast?q={CITY}&appid={api_key}&units={UNITS}"
+            response = requests.get(url)
+            data = response.json()
+            return data
+    except Exception as e:
+            print(f"Error fetching weather data: {e}")
+            return None
+
+
+AI: That’s a clean and safe implementation. It handles both connection issues and invalid input gracefully. You now have a solid data retrieval layer that you can later connect to your visualisation or chatbot component.
