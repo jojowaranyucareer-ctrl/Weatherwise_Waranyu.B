@@ -4,14 +4,15 @@
 
 ## 🤖 AI Tools Used
 
-I used **ChatGPT** as my sole AI tool during development. I treated it as a **design partner** — clarifying requirements, drafting pseudocode, stress-testing edge cases, and iterating on structure.  
+I used **ChatGPT** as my sole AI tool during development. I treated it as a **design partner** (clarifying requirements, drafting pseudocode, stress-testing edge cases, and iterating on structure).  
 
 ChatGPT’s biggest value was helping me **think aloud**: I could restate goals, propose a plan, and get immediate feedback before touching code.  
 
 Outside of ChatGPT, the project also relied on several key tools and libraries:
 - **OpenWeather REST API** – to retrieve real-time forecast data  
 - **ipywidgets** – for building an interactive notebook interface  
-- **matplotlib** – for creating temperature and rainfall visualisations  
+- **matplotlib** – for creating temperature and rainfall visualisations
+- **hands-on-ai** - for using AI to answer the weather question  
 
 ---
 
@@ -33,7 +34,7 @@ These techniques made my collaboration with ChatGPT structured and goal-oriented
 
 ## ✅ What Worked Well
 
-The **architecture** is what I am most proud of.  
+The **Structure of Coding** is what I am most proud of.  
 Separation of concerns kept the system understandable and easy to test.
 
 - `openWeather_getWeather()` focuses on **data retrieval** and **error handling**.  
@@ -52,28 +53,9 @@ Small quality touches enhanced usability, such as:
 
 ## 🔄 What I Would Do Differently
 
-If I had more time, I would focus on **improving natural-language parsing**.  
-The current approach uses simple capitalization and keyword heuristics — acceptable for a demo but brittle with:
-- Multi-word cities (“New York”)  
-- Ambiguous phrasing  
-- Relative date expressions (“the day after tomorrow”)
+If I had more time to continue improving this project, I would focus on enhancing the **user interface and visual experience**. I really enjoyed designing the charts and would like to make them more interactive and colourful. For example, when the temperature is very high, the graph could automatically display **red tones** to highlight heat warnings, while cooler temperatures could appear in **blue**. This kind of visual feedback would make the weather data easier to understand and more engaging for users.
 
-A lightweight **NLP layer** or compact **rules engine** could improve reliability.  
-
-I would also make several structural and performance enhancements:
-- Add **response validation and guardrails** in the AI layer:  
-  - Unit normalization (°C/°F)  
-  - Consistent rounding  
-  - Clear “insufficient data” messages  
-- Implement **short-TTL caching** and **asynchronous I/O** for faster API calls.  
-- Introduce **schema validation** (e.g., with *Pydantic*) to detect malformed data early.  
-- Expand **unit tests** using mocked payloads for:  
-  - Error scenarios  
-  - Rate limits  
-  - Unexpected API responses  
-- Move all configuration to a **`.env` file** and improve setup documentation with a **troubleshooting section** for common network or key errors.
-
-These improvements would make WeatherWise more robust, scalable, and maintainable for real-world use.
+In the future, I would also like to add **interactive features** such as tooltips that show detailed values when hovering over data points, or buttons that allow users to switch between temperature and precipitation views without reloading the graph. Learning how to implement these dynamic elements will take more time, but I’m excited to explore them to make the WeatherWise interface more enjoyable and user-friendly.
 
 ---
 
