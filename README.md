@@ -10,7 +10,6 @@ This project is based on the **WeatherWise Assignment Starter Template**, enhanc
 ![Visualisation](https://img.shields.io/badge/Includes-Visualisations-orange?logo=plotly)
 
 ---
----
 
 ## 🧩 Overview
 
@@ -53,20 +52,37 @@ Get your keys from:
 
 ---
 
-## 🌤️ Main Functions
+## ⚙️ How It Works
 
-| Function | Purpose |
-|-----------|----------|
-| `openWeather_getWeather()` | Fetches 5-day forecast data. |
-| `get_temps()` | Extracts daily temperature info. |
-| `create_temperature_visualisation()` | Line chart for temperature trends. |
-| `create_precipitation_visualisation()` | Bar chart for rainfall. |
-| `parse_weather_question()` | Understands user questions. |
-| `generate_weather_response()` | AI-generated weather advice. |
+**WeatherWise** follows a simple **data → analysis → AI → user output** pipeline:
 
 ---
 
-## 🧭 User Interface
+### 🌐 1. Fetch Weather Data
+- The app calls the **OpenWeather API** using the selected city and units (°C/°F).  
+- Data includes temperature, humidity, rainfall, and a 5-day forecast.
+
+---
+
+### 🧮 2. Process and Organise Data
+- Functions like `get_temps()` extract relevant fields (min/max/average).  
+- The data is cleaned and structured for visualisation and AI input.
+
+---
+
+### 📊 3. Visualise the Forecast
+- `matplotlib` generates **line charts** (temperature) and **bar charts** (rainfall).  
+- Users can easily understand weather patterns at a glance.
+
+---
+
+### 🤖 4. AI Interaction
+- User questions (e.g., *“Will it rain tomorrow in Perth?”*) are parsed by `parse_weather_question()`.  
+- `generate_weather_response()` combines AI analysis with forecast data to produce natural, contextual answers.
+
+---
+
+## 🧭 5. User Interface
 
 **Interactive options (via `ipywidgets`):**
 
