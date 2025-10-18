@@ -31,7 +31,8 @@ This project is based on the **WeatherWise Assignment Starter Template**, enhanc
 
 Install dependencies:
 ```bash
-!pip install requests matplotlib ipywidgets fetch-my-weather pyinputplus hands-on-ai
+!pip install hands-on-ai
+!pip install pyinputplus
 
 ---
 
