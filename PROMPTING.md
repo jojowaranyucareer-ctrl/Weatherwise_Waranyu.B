@@ -1,6 +1,6 @@
 # 📒 PROMPTING.md
 
-Below is one focused example that combines your prompt, the intentional prompting technique used, why it helped, and **Before/After** code. It also links back to assessment requirements (modular design, error handling, testing, visuals, documentation quality).
+Five focused example that combines my prompt, the intentional prompting technique used, why it helped, and **Before/After** code. It also links back to assessment requirements (modular design, error handling, testing, visuals, documentation quality).
 
 ---
 
