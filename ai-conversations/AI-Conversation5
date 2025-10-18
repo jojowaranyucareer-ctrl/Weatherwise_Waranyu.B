@@ -1,0 +1,87 @@
+Tool: ChatGPT
+Date: 2025-10-13
+Topic: Creating a precipitation visualisation 
+
+Me: Now I need to make one for precipitation, and I want it to look similar to the temperature chart. Should I use the same structure or change anything?
+
+AI: You can use almost the same structure. The main difference is how you calculate the data. Instead of averaging temperatures, you’ll need to sum up the precipitation amounts for each day. OpenWeatherMap gives precipitation data in 3-hour intervals, so you can add those up to get the daily total.
+
+Me: So I can still use the same plotting layout, just with bars instead of a line, right?
+
+AI: Exactly. A bar chart works better for precipitation because it represents quantities that add up over time. You can still use the same parameters like num_days and output_type. The function would look very similar, except for how you handle the rain and snow values.
+
+Me: Okay, could you show me what the logic for summing rain and snow might look like?
+
+AI: Sure. Inside your loop through weather_data["list"], you can do this:
+
+precip_3h = item.get("rain", {}).get("3h", 0) + item.get("snow", {}).get("3h", 0)
+daily_precipitation[date_str] += precip_3h
+
+
+That line adds both rain and snow amounts (if they exist) for each 3-hour period. Over a day, this accumulates into a total daily precipitation value.
+
+Me: That’s clear. I also remember in the temperature chart we used date formatting like strftime("%a %d"). Can I use that again here for the bar chart labels?
+
+AI: Yes, definitely. You can reuse that part to make the chart consistent with your temperature visualisation. It’s good design practice to keep the same label format and color style so your dashboard feels uniform.
+
+Me: Please help me check if this version looks correct.
+
+def create_precipitation_visualisation(weather_data: Dict[str, Any], num_days: int = 5, output_type: str = 'display'):
+    forecast_list = weather_data.get("list", [])
+    if not forecast_list:
+        print("No forecast data available to plot precipitation.")
+        return None
+
+    daily_precipitation = defaultdict(float)
+    date_labels = []
+
+    for item in forecast_list:
+        dt_txt = item["dt_txt"]
+        date_str = dt_txt.split(" ")[0]
+        if date_str not in date_labels:
+            date_labels.append(date_str)
+        precip_3h = item.get("rain", {}).get("3h", 0) + item.get("snow", {}).get("3h", 0)
+        daily_precipitation[date_str] += precip_3h
+
+    sorted_dates = sorted(daily_precipitation.keys())
+    sorted_precipitation_totals = [daily_precipitation[date] for date in sorted_dates]
+
+    formatted_labels = []
+    for date_str in sorted_dates:
+        try:
+            formatted_labels.append(datetime.strptime(date_str, "%Y-%m-%d").strftime("%a %d"))
+        except Exception:
+            formatted_labels.append(date_str)
+
+    fig, ax = plt.subplots()
+    num_days_to_plot = min(num_days, len(sorted_dates))
+    ax.bar(formatted_labels[:num_days_to_plot], sorted_precipitation_totals[:num_days_to_plot], color="#4e79a7")
+    ax.set_title(f"Daily Total Precipitation Forecast for {num_days_to_plot} Days")
+    ax.set_xlabel("Day")
+    ax.set_ylabel("Precipitation (mm)")
+    plt.tight_layout()
+
+    if output_type == 'figure':
+        return fig
+    else:
+        plt.show()
+        return None
+
+
+AI: This looks excellent. It follows the same design principles as your temperature visualisation but uses a bar chart, which is perfect for showing total precipitation. You’re also using good practices: checking if data exists, formatting dates clearly, and handling different weather keys safely.
+
+Me: Thanks. I noticed you used defaultdict(float) for daily_precipitation. Why not just use a regular dictionary?
+
+AI: Good question. With defaultdict(float), you don’t need to manually check if a key exists before adding to it. If a date doesn’t exist yet, it automatically starts at 0. For example, daily_precipitation[date] += value works without needing an if statement.
+
+Me: That’s convenient. And it makes the loop shorter. I also want to make sure the colors match the rest of my dashboard. Should I keep it blue like this or use the same color as the temperature chart?
+
+AI: Using a different but complementary color works well. For example, keeping blue (#4e79a7) for precipitation and using orange or red for temperature gives a clear visual distinction. It’s good to avoid the same color when showing different metrics.
+
+Me: That makes sense. I’ll keep it blue for now. Do I still need to handle the case when no data is returned, like in the temperature version?
+
+AI: Yes, you already did that correctly with the if not forecast_list check. It prevents your code from crashing when there’s no data available. You can reuse the same message or modify it for clarity.
+
+Me: Okay, then I think this function is ready. It feels consistent with the temperature visualisation and handles everything properly.
+
+AI: I agree. This version looks clean, easy to maintain, and fits perfectly alongside your temperature chart. Both functions follow the same structure and style, which is great for a unified project.
