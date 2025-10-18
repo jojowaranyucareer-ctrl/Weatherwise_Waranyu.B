@@ -14,7 +14,7 @@ Five focused example that combines my prompt, the intentional prompting techniqu
 ### Before
 ```python
 # Idea only. No structure for widgets, no separation of UI vs logic.
-
+```
 ### AI Response (summary)
 - Create widgets: Text (location), Int (days), Buttons (Fetch, Temp Chart, Precip Chart, Ask AI, Quit), and an Output area.  
 - Wire small handlers that call focused functions.  
