@@ -1,63 +1,103 @@
-# 🌦️ WeatherWise Template
+# 🌦️ WeatherWise — Smart Weather Advisor
 
-Welcome to the **WeatherWise Assignment Starter Template**! This repository helps you kickstart your project by combining Python, weather APIs, data visualisation, and AI-assisted development. 🤖📊
+Welcome to **WeatherWise**, a smart weather advisor application that combines live weather data with AI-powered natural language responses.  
+This project is based on the **WeatherWise Assignment Starter Template**, enhanced with custom logic, visualisations, and interface design developed by **Waranyu Bancherdvanich**.
+
+---
 
 ![Build With AI](https://img.shields.io/badge/Built_with-AI-blueviolet?logo=openai)
 ![Python](https://img.shields.io/badge/Made_with-Python-3776AB?logo=python)
 ![Visualisation](https://img.shields.io/badge/Includes-Visualisations-orange?logo=plotly)
 
 ---
+---
 
-## 🚀 How to Use This Template
+## 🧩 Overview
 
-1. Click **"Use this template"** on GitHub to create your own copy.
-2. Rename your repository to something like `weatherwise-jane-doe`.
-3. Clone it and start developing in `starter_notebook.ipynb`.
+**Features**
+- 🌤️ Current weather and 5-day forecast  
+- 📈 Temperature and rainfall charts  
+- 💬 AI-driven weather questions  
+- 🧠 Smart outdoor advice (“Should I go outside tomorrow?”)
+
+**Core Components**
+- API data retrieval and processing  
+- Matplotlib visualisations  
+- AI conversation features  
+- Interactive UI with `ipywidgets`
 
 ---
 
-## 📁 Folder Structure
+## ⚙️ Setup
 
-- `starter_notebook.ipynb` — Main notebook to build your project.
-- `ASSIGNMENT.md` — Full assignment specification.
-- `ai-conversations/` — Save your `.txt` AI conversations here.
-- `resources/` — Guides, prompting tips, and AI technique examples.
-- `submission/` — Files to help you finalise your submission:
-  - `checklist-md.md` — Submission checklist
-  - `reflection.md` — Write your 300–500 word project reflection
-  - `one-page-summary.md` — (Optional) Your own summary of key ideas or process
+Install dependencies:
+```bash
+!pip install requests matplotlib ipywidgets fetch-my-weather pyinputplus hands-on-ai
 
 ---
 
-📄 **Quick Overview:**  
-A one-page summary of the full assignment is available in [`resources/assignment-summary.md`](resources/assignment-summary.md).
+## 🔑 Set API Keys
+
+```python
+import os
+
+os.environ['HANDS_ON_AI_SERVER'] = 'https://ollama.serveur.au'
+os.environ['HANDS_ON_AI_MODEL'] = 'llama3.2'
+os.environ['HANDS_ON_AI_API_KEY'] = 'YOUR_HANDS_ON_AI_API_KEY'
+os.environ['OPENWEATHER_API_KEY'] = 'YOUR_OPENWEATHER_API_KEY'
+
+Get your keys from:
+🌐 https://openweathermap.org/
+🌐 https://ollama.com/
 
 ---
 
-## 📓 Submission Checklist
+## 🌤️ Main Functions
 
-✅ Complete all required functions  
-✅ Include at least 5 AI conversations in `ai-conversations/`  
-✅ Document your intentional prompting  
-✅ Fill in your project reflection in `submission/reflection-template.md`  
-✅ Zip your project and upload it to the LMS  
+| Function | Purpose |
+|-----------|----------|
+| `openWeather_getWeather()` | Fetches 5-day forecast data. |
+| `get_temps()` | Extracts daily temperature info. |
+| `create_temperature_visualisation()` | Line chart for temperature trends. |
+| `create_precipitation_visualisation()` | Bar chart for rainfall. |
+| `parse_weather_question()` | Understands user questions. |
+| `generate_weather_response()` | AI-generated weather advice. |
 
 ---
 
-🧠 AI Conversations  
-Save your AI interactions in the `ai-conversations/` folder.  
-See `ai-conversations/how-to-log-ai-conversations.md` for details.
+## 🧭 User Interface
 
+**Interactive options (via `ipywidgets`):**
 
---
-## 🧠 Need Help with AI Prompts?
+- 📍 Enter location & forecast days  
+- ☀️ Fetch Today’s Weather  
+- 📈 Show Charts  
+- 🤖 Ask AI Question  
+- 👋 Quit Session  
 
-Check out:
-Check out:
-- `resources/ai-tips-tricks.md` — Prompting tips and pitfalls
-- `resources/sample-prompting-journey.md` — Full example of AI-enhanced development
-- `resources/prompts-by-method-step.md` — Prompts aligned with the 6-step dev process
-- `resources/before-after-example.md` — Required: Show how your prompting improved AI-generated code
+---
 
+## 💡 Example
 
-Good luck and have fun! 💡🌤️
+**Example Interaction**
+
+| Step | Action | Result |
+|------|---------|--------|
+| 1 | Enter: `Perth` | Loads weather data |
+| 2 | Click: ☀️ *Fetch Weather* | Shows temperature summary |
+| 3 | Ask: “Will it rain tomorrow?” | AI gives personalised advice |
+
+---
+
+## 🎯 Project Purpose
+
+**WeatherWise** integrates APIs, AI, and data visualisation to make weather information more interactive and insightful.  
+It demonstrates how natural language and data analytics can support everyday decisions.
+
+---
+
+## 🧠 AI Conversations
+
+All prompt logs are saved in `/ai-conversations/`.  
+See resources for examples and prompting tips.
+
