@@ -1,0 +1,49 @@
+Tool: ChatGPT
+Date: 2025-10-115
+Topic: Adding “Ask AI” and finalising the WeatherWise user interface
+
+Me: The last part I need to add is a button where users can ask weather questions, and it will use the AI to answer.
+
+AI: You can create another handler called on_ask_question_button_clicked(). It should:
+
+Get the question text and location.
+
+Fetch the latest weather data if needed.
+
+Parse the question using your parse_weather_question() function.
+
+Pass both the parsed question and weather data to generate_weather_response().
+
+Print the AI’s reply.
+
+Me: Like this?
+
+def on_ask_question_button_clicked(b, location_input, question_input, output_area):
+    with output_area:
+        output_area.clear_output()
+        question = question_input.value
+        loc = location_input.value
+
+        if not loc:
+            print("⚠️ Please enter a location.")
+            return
+        if not question:
+            print("❓ Please enter a question.")
+            return
+
+        print("🤖 Asking AI...")
+        parsed_question = parse_weather_question(question)
+        ai_response = generate_weather_response(parsed_question, _LAST_WEATHER)
+        print("\n✨ AI Response: ✨")
+        print(ai_response)
+
+
+AI: Exactly. That’s clean and straightforward. It connects all your earlier work into one interactive flow.
+
+Me: Nice. I also added a “Quit” button and a create_weather_ui() function that puts everything together using widgets for input and buttons.
+
+AI: That completes your WeatherWise interface. You now have a fully interactive weather assistant that can fetch, visualise, and respond to questions through AI — all inside Jupyter Notebook.
+
+Me: Thanks! This was my favourite part to build. Seeing everything come together feels great.
+
+AI: You’ve done a really good job integrating multiple technologies into one cohesive project.
