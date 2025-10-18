@@ -3,7 +3,34 @@ Below are five focused examples that combine my actual prompts, the intentional 
 
 
 ---
+## ✅ Demonstrates at Least 5 Intentional Prompting Techniques
 
+1) **Restate the problem & clarify scope**  
+   - *Example:* “I want a simple `ipywidgets` UI… How should I start?”  
+   - *Impact:* Produced a clear component plan (inputs/outputs, widgets, handlers) before coding.  
+   - *See:* Example 1 (UI planning and advice helper)
+
+2) **Identify inputs/outputs explicitly**  
+   - *Example:* “How should chart handlers reuse data and validate inputs?”  
+   - *Impact:* Led to caching `_LAST_WEATHER`, validating `location_input`, and early exits with messages.  
+   - *See:* Example 2 (Chart buttons with caching and guards)
+
+3) **Request explanations to ensure understanding**  
+   - *Example:* “Explain why `[8:16]` is used for tomorrow and how to compute averages/precip totals.”  
+   - *Impact:* Corrected time-slice logic based on 3-hour cadence → accurate “tomorrow” summaries.  
+   - *See:* Example 3 (Tomorrow indexing)
+
+4) **Challenge edge cases & failure modes**  
+   - *Example:* “Show me how to print keys, preview first list item, handle failures.”  
+   - *Impact:* Added env-based API key, timeouts, try/except, and guards for missing `list`.  
+   - *See:* Example 4 (Retrieval stability and live testing)
+
+5) **Iterative improvement of initial solution**  
+   - *Example:* “Ensure labels are readable and dates are sorted.”  
+   - *Impact:* Sorted dates, rotated labels, `tight_layout()` → clearer charts without changing data logic.  
+   - *See:* Example 5 (Visualisation readability)
+
+---
 ## 1) UI Planning and Advice Helper
 
 **Topic:** Planning the `ipywidgets` UI and adding `get_temperature_advice`  
