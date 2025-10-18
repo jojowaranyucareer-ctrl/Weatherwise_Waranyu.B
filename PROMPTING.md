@@ -68,3 +68,72 @@ if not _LAST_WEATHER or not _LAST_WEATHER.get("list"):
 create_temperature_visualisation(_LAST_WEATHER, num_days=days_input.value)
 ```
 ---
+## 3) Correct Tomorrow Indexing Using 3-Hour Cadence
+
+**Topic:** Getting tomorrow’s summary from 3-hour forecasts  
+**Prompt:** “Explain why [8:16] is used for tomorrow and show how to compute averages and precipitation totals.”  
+**Technique:** Ask for code explanations to ensure understanding  
+**Why it helped:** Locked in the correct mapping from 3-hour slots to a full day.
+
+### Before
+```python
+tomorrow_points = weather_data["list"][0:8]  # incorrect for tomorrow
+```
+### AI Response (summary)
+- There are **8 chunks per day** at **3 hours** each.  
+- Use **[8:16]** for the next day, then compute **averages** and **totals** from that slice.
+
+### After
+```python
+tomorrow_points = weather_data["list"][8:16]
+
+avg_temp = sum(i["main"]["temp"] for i in tomorrow_points) / len(tomorrow_points)
+
+precip = sum(
+    i.get("rain", {}).get("3h", 0) + i.get("snow", {}).get("3h", 0)
+    for i in tomorrow_points
+)
+```
+---
+## 4) Retrieval Stability and Live Testing
+
+**Topic:** Testing `openWeather_getWeather` and `get_weather_data` and handling failures  
+**Prompt:** “I want to test `openWeather_getWeather` and `get_weather_data` for London and Tokyo. Show me how to print keys, the first list item, and handle failures.”  
+**Technique:** Identify inputs and outputs, then iterate based on tests  
+**Why it helped:** Validated structure early, exposed missing keys and network issues, stabilized downstream logic.
+
+### Before
+```python
+def openWeather_getWeather(city, units="metric"):
+    return requests.get(url).json()  # no key check, no timeout, no try/except
+```
+### AI Response (summary)
+- Read API key from environment, not from code.  
+- Add a request timeout and wrap in `try/except`.  
+- Print top-level keys and preview the first forecast entry.  
+- Guard for a missing `list` in the response.
+
+### After
+```python
+def openWeather_getWeather(city: str, units: str = "metric"):
+    api_key = os.getenv("OPENWEATHER_API_KEY")
+    if not api_key:
+        return None
+    try:
+        url = (
+            "https://api.openweathermap.org/data/2.5/forecast"
+            f"?q={city}&appid={api_key}&units={units}"
+        )
+        resp = requests.get(url, timeout=15)
+        return resp.json()
+    except Exception as e:
+        print(f"Error fetching weather data: {e}")
+        return None
+
+# Tests
+if weather_raw_data:
+    print(list(weather_raw_data.keys()))
+    if weather_raw_data.get("list"):
+        print(weather_raw_data["list"][0])
+```
+---
